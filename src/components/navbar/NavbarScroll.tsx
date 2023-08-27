@@ -73,55 +73,60 @@ const iconData = [
 ];
 
 const NavbarScroll = () => {
-  const scrollContainerRef = useRef(null);
-  const [scrollPosition, setScrollPosition] = useState(0);
-  const iconWidth = 75; // Adjust this based on your icon width
-  const containerWidth = iconData.length * iconWidth;
+ 
+    const scrollContainerRef = useRef<HTMLDivElement | null>(null); // Specify the type here
+    const [scrollPosition, setScrollPosition] = useState(0);
+    const iconWidth = 75;
+    const containerWidth = iconData.length * iconWidth;
 
-  const scrollLeft = () => {
-    if (scrollPosition > 0) {
-      setScrollPosition(scrollPosition - iconWidth);
-      scrollContainerRef.current.scrollBy({
-        left: -iconWidth,
-        behavior: "smooth",
-      });
-    }
-  };
+    const scrollLeft = () => {
+      if (scrollPosition > 0 && scrollContainerRef.current) {
+        setScrollPosition(scrollPosition - iconWidth);
+        scrollContainerRef.current.scrollBy({
+          left: -iconWidth,
+          behavior: "smooth",
+        });
+      }
+    };
 
-  const scrollRight = () => {
-    if (scrollPosition < containerWidth - iconWidth) {
-      setScrollPosition(scrollPosition + iconWidth);
-      scrollContainerRef.current.scrollBy({
-        left: iconWidth,
-        behavior: "smooth",
-      });
-    }
-  };
+    const scrollRight = () => {
+      if (
+        scrollPosition < containerWidth - iconWidth &&
+        scrollContainerRef.current
+      ) {
+        setScrollPosition(scrollPosition + iconWidth);
+        scrollContainerRef.current.scrollBy({
+          left: iconWidth,
+          behavior: "smooth",
+        });
+      }
+    };
 
-  return (
-    <div className="px-[25px] md:p-0 relative w-full bg-white">
-      <div className="flex items-center gap-[10px]">
-        <div
-          ref={scrollContainerRef}
-          className="flex overflow-x-scroll  "
-          style={{ width: `${containerWidth}px`, scrollBehavior: "smooth" }}
-        >
-          {iconData.map((data, index) => (
-            <ScrollIcon key={index} icon={data.icon} text={data.text} />
-          ))}
+    return (
+      <div className="px-[25px] md:p-0 relative w-full bg-white">
+        <div className="flex items-center gap-[10px]">
+          <div
+            ref={scrollContainerRef}
+            className="flex overflow-x-scroll  "
+            style={{ width: `${containerWidth}px`, scrollBehavior: "smooth" }}
+          >
+            {iconData.map((data, index) => (
+              <ScrollIcon key={index} icon={data.icon} text={data.text} />
+            ))}
+          </div>
+        </div>
+        <div className="fixed  w-full flex justify-between bottom-[70px] px-[1px]">
+          <div className="p-[5px] shadow-lg rounded-full cursor-pointer bg-white">
+            <BiChevronLeft size={25} />
+          </div>
+
+          <div className="p-[5px] shadow-lg rounded-full cursor-pointer bg-white">
+            <BiChevronRight size={25} />
+          </div>
         </div>
       </div>
-      <div className="fixed  w-full flex justify-between bottom-[70px] px-[1px]">
-        <div className="p-[5px] shadow-lg rounded-full cursor-pointer bg-white">
-          <BiChevronLeft size={25} />
-        </div>
-
-        <div className="p-[5px] shadow-lg rounded-full cursor-pointer bg-white">
-          <BiChevronRight size={25} />
-        </div>
-      </div>
-    </div>
-  );
+    );
+  
 };
 
 export default NavbarScroll;

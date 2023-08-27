@@ -2,7 +2,7 @@ import Image from 'next/image';
 import React, { FC } from 'react';
 
 interface ScrollIconProps {
-    icon: string; // Use string type for the icon source
+    icon: any; // Use string type for the icon source
     text: string;
 }
 
